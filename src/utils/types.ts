@@ -26,6 +26,11 @@ export interface IUser {
   phone: string;
   website: string;
   company: ICompany;
+} 
+
+export interface IComment {
+  date: Date;
+  text: string;
 }
 
 export interface ITask {
@@ -34,4 +39,6 @@ export interface ITask {
   dateTimeFrom: Date;
   dateTimeTo: Date;
   user: IUser;
+  isFavorite?: boolean;
+  comments: IComment[];
 }

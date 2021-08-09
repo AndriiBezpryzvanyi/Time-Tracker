@@ -1,18 +1,52 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { ITask } from "../../utils/types";
+import { IComment, ITask } from "../../utils/types";
+import Comment from '../../components/Comment';
 import styles from './DetailsPage.module.scss';
 
 const DetailsPage: React.FC = () => {
   const [currentTask, setCurrentTask] = useState<ITask | null>(null);
-
+  const [commentText, setCommentText] = useState<string>('');
   const { id } = useParams() as { id: string };
 
   useEffect(() => {
     const savedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
     setCurrentTask(savedTasks.find((task: ITask) => task.name === id));
   }, [id]);
+
+  const updateSavedTask = (changedTask: ITask) => {
+    setCurrentTask(changedTask as ITask);
+    const savedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    localStorage.setItem('tasks', JSON.stringify(
+      savedTasks.map((task: ITask) => task.name === currentTask?.name ? changedTask : task)
+    ));
+  }
+
+  const addComment = () => {
+    if (commentText && currentTask) {
+      updateSavedTask({
+        ...currentTask,
+        comments: [
+          ...currentTask.comments || [],
+          {
+            text: commentText,
+            date: new Date(),
+          }
+        ]
+      })
+      setCommentText('');
+    }
+  }
+
+  const favoriteToggle = () => {
+    if (currentTask) {
+      updateSavedTask({
+        ...currentTask,
+        isFavorite: !currentTask.isFavorite,
+      })
+    }
+  }
 
   return (
     <section>
@@ -21,6 +55,9 @@ const DetailsPage: React.FC = () => {
       ) : (
         <div>
           <div className={styles.title}>Task details</div>
+          <div className={styles.actionButton} onClick={favoriteToggle}>
+            {currentTask.isFavorite ? 'Remove from favorite' : 'Add to favorite'}
+          </div>
           <div className={styles.info}>
             <div>Name:</div>
             <div>{currentTask.name}</div>
@@ -46,6 +83,21 @@ const DetailsPage: React.FC = () => {
             </div>
             <div>Company:</div>
             <div>{currentTask.user.company.name}</div> 
+          </div>
+
+          <div className={styles.title}>Task comments</div>
+          <div className={styles.comments}>
+            <textarea
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              rows={5}
+              className={styles.textarea}
+              placeholder="Comment text..."
+            ></textarea>
+            <button className={styles.button} onClick={addComment}>Add comment</button>
+            {currentTask.comments.map((item: IComment) => (
+              <Comment key={item.date.toString()} date={item.date} text={item.text} />
+            ))}
           </div>
         </div>
       )}

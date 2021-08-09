@@ -36,6 +36,8 @@ const Tracker: React.FC = () => {
         dateTimeTo: timeTo,
         description,
         user: selectedUser!,
+        isFavorite: true,
+        comments: []
       }];
       localStorage.setItem('tasks', JSON.stringify(newTasks));
       setTasks(newTasks);

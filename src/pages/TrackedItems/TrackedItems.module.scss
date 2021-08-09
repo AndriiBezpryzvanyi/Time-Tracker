@@ -29,3 +29,16 @@
   text-align: center;
   margin: 20px;
 }
+
+.filter {
+  margin: 10px 20px;
+
+  span {
+    cursor: pointer;
+  }
+}
+
+.selectedSort {
+  color: #0a76d2;
+  font-weight: bold;
+}

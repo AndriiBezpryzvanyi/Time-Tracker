@@ -1,0 +1,16 @@
+.comment {
+  margin: 20px 0;
+
+  .text {
+    border: 1px solid #e3e6ea;
+    background: #e3e6ea;
+    border-radius: 5px;
+    padding: 10px;
+    white-space: pre;
+  }
+
+  .date {
+    text-align: right;
+    font-size: 12px;
+  }
+}
