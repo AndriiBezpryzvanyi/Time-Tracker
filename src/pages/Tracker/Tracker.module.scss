@@ -1,0 +1,58 @@
+.container {
+  padding: 20px;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+  background: #f4f6f8;
+  height: 45px;
+  font-size: 18px;
+  line-height: 45px;
+  outline: none;
+  border: 1px solid #c0c7ce;
+  margin-bottom: 20px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  color: #0d1b24;
+}
+
+.dates {
+  display: flex;
+
+  input {
+    flex: 1;
+    margin-right: 20px;
+  }
+
+  input:last-child {
+    margin-right: 0;
+  }
+}
+
+.textarea {
+  padding: 20px;
+  line-height: 1.1;
+  height: auto;
+}
+
+.button {
+  background: #0a76d2;
+  border-radius: 5px;
+  color: #fff;
+  height: 45px;
+  line-height: 45px;
+  width: 100%;
+  text-align: center;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition-duration: .3s;
+  text-transform: uppercase;
+  font-weight: bold;
+
+  &:hover {
+    opacity: .8;
+  }
+}

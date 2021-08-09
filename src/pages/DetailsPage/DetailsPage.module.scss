@@ -1,0 +1,25 @@
+.title {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 20px;
+}
+
+.info {
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+
+  div {
+    flex: 50%;
+    margin-top: 10px;
+    border-bottom: 1px solid #e3e6ea;
+    padding-bottom: 10px;
+  }
+  pre {
+    margin: 0;
+  }
+
+  div:nth-child(2n - 1) {
+    font-weight: bold;
+  }
+}

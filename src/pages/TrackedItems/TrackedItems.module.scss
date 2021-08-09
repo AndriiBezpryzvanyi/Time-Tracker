@@ -1,0 +1,31 @@
+.task {
+  display: flex;
+  padding: 20px;
+  transition-duration: .3s;
+  cursor: pointer;
+
+  .actions {
+    width: 100px;
+    min-width: 100px;
+    text-align: center;
+    color: #0a76d2;
+    font-weight: bold;
+    cursor: pointer;
+    div:hover {
+      text-decoration: underline;
+    }
+  }
+
+  div {
+    width: 100%;
+  }
+
+  &:hover {
+    background: #0a76d21a;
+  }
+}
+
+.alert {
+  text-align: center;
+  margin: 20px;
+}
