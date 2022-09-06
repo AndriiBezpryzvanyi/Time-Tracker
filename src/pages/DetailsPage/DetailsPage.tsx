@@ -95,7 +95,7 @@ const DetailsPage: React.FC = () => {
               placeholder="Comment text..."
             ></textarea>
             <button className={styles.button} onClick={addComment}>Add comment</button>
-            {currentTask.comments.map((item: IComment) => (
+            {currentTask.comments?.map((item: IComment) => (
               <Comment key={item.date.toString()} date={item.date} text={item.text} />
             ))}
           </div>

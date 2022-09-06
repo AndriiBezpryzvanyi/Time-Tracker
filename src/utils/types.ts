@@ -22,11 +22,11 @@ export interface IUser {
   name: string;
   username: string;
   email: string;
-  address: IAddress,
+  address: IAddress;
   phone: string;
   website: string;
   company: ICompany;
-} 
+}
 
 export interface IComment {
   date: Date;
@@ -36,9 +36,9 @@ export interface IComment {
 export interface ITask {
   name: string;
   description?: string;
-  dateTimeFrom: Date;
-  dateTimeTo: Date;
+  dateTimeFrom: Date | string;
+  dateTimeTo: Date | string;
   user: IUser;
   isFavorite?: boolean;
-  comments: IComment[];
+  comments?: IComment[];
 }
