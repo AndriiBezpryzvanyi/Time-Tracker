@@ -9,6 +9,7 @@ const GET = async (url: string, params?: AxiosRequestConfig) => {
   return { res };
 };
 
+// for demonstration
 const POST = async (url: string, data: any) => {
   const res = await axiosInstance.post(url, data);
   return { res };

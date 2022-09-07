@@ -36,9 +36,9 @@ export interface IComment {
 export interface ITask {
   name: string;
   description?: string;
-  dateTimeFrom: Date;
-  dateTimeTo: Date;
+  dateTimeFrom: Date | string;
+  dateTimeTo: Date | string;
   user: IUser;
   isFavorite?: boolean;
-  comments: IComment[];
+  comments?: IComment[];
 }

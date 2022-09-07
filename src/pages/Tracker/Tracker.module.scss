@@ -1,5 +1,16 @@
 .container {
   padding: 20px;
+  & span {
+    color: red;
+    font-size: 12px;
+    position: absolute;
+    left: 7px;
+    top: 45px;
+  }
+}
+
+.fieldWrapper {
+  position: relative;
 }
 
 .input {
@@ -20,21 +31,14 @@
 
 .dates {
   display: flex;
-
-  input {
-    flex: 1;
-    margin-right: 20px;
-  }
-
-  input:last-child {
-    margin-right: 0;
-  }
+  justify-content: space-around;
 }
 
 .textarea {
   padding: 20px;
   line-height: 1.1;
   height: auto;
+  resize: vertical;
 }
 
 .button {
@@ -55,4 +59,8 @@
   &:hover {
     opacity: 0.8;
   }
+}
+
+.errorField {
+  border: 1px solid red;
 }

@@ -1,26 +1,22 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { GET } from "../../API/api";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useHistory } from "react-router-dom";
 import { ITask, IUser } from "../../utils/types";
 import styles from "./Tracker.module.scss";
+import { initialValuesForm, validationSchema } from "./constants";
 
 const Tracker: React.FC = () => {
-  const [isLoading, setLoading] = useState<boolean>(true);
-  const [taskName, setTaskName] = useState<string>("");
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
-  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
-  const [timeFrom, setTimeFrom] = useState<Date>(new Date());
-  const [timeTo, setTimeTo] = useState<Date>(new Date());
-  const [description, setDescription] = useState<string>("");
+
   const history = useHistory();
 
   const getUsers = async () => {
     try {
       const { res } = await GET(`users`);
       setUsers(res.data);
-      setLoading(false);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -33,79 +29,98 @@ const Tracker: React.FC = () => {
     getUsers();
   }, []);
 
-  const addTask = () => {
-    if (taskName && !tasks.find((task) => task.name === taskName)) {
-      const newTasks = [
-        ...tasks,
-        {
-          name: taskName,
-          dateTimeFrom: timeFrom,
-          dateTimeTo: timeTo,
-          description,
-          user: selectedUser!,
-          isFavorite: true,
-          comments: [],
-        },
-      ];
-      localStorage.setItem("tasks", JSON.stringify(newTasks));
-      setTasks(newTasks);
-      history.push("/list");
-    }
+  const addTask = (value: ITask) => {
+    const newTasks = [
+      ...tasks,
+      {
+        name: value.name,
+        dateTimeFrom: value.dateTimeFrom,
+        dateTimeTo: value.dateTimeTo,
+        description: value.description,
+        user: value.user,
+        isFavorite: value.isFavorite,
+        comments: [],
+      },
+    ];
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
+    setTasks(newTasks);
+    history.push("/list");
   };
+
+  if (!users.length) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <section className={styles.container}>
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <>
-          <input
-            value={taskName}
-            onChange={(e) => setTaskName(e.target.value)}
-            type="text"
-            className={styles.input}
-            placeholder="Task name"
-          />
-          <div className={styles.dates}>
-            <input
-              type="datetime-local"
-              className={styles.input}
-              value={timeFrom.toISOString().slice(0, 16)}
-              onChange={(e) => setTimeFrom(new Date(e.target.value))}
+      <Formik
+        initialValues={initialValuesForm(users[0])}
+        onSubmit={addTask}
+        validationSchema={validationSchema(tasks)}
+      >
+        {({ isSubmitting, touched, errors }) => (
+          <Form>
+            <div className={styles.fieldWrapper}>
+              <Field
+                name="name"
+                className={clsx(
+                  styles.input,
+                  touched.name && errors.name && styles.errorField
+                )}
+                placeholder="Task name"
+              />
+              <ErrorMessage name="name" component="span" />
+            </div>
+            <div className={styles.dates}>
+              <div className={styles.fieldWrapper}>
+                <Field
+                  name="dateTimeFrom"
+                  type="datetime-local"
+                  className={clsx(
+                    styles.input,
+                    touched.dateTimeFrom &&
+                      errors.dateTimeFrom &&
+                      styles.errorField
+                  )}
+                />
+                <ErrorMessage name="dateTimeFrom" component="span" />
+              </div>
+              <div className={styles.fieldWrapper}>
+                <Field
+                  name="dateTimeTo"
+                  type="datetime-local"
+                  className={clsx(
+                    styles.input,
+                    touched.dateTimeTo && errors.dateTimeTo && styles.errorField
+                  )}
+                />
+                <ErrorMessage name="dateTimeTo" component="span" />
+              </div>
+            </div>
+            <Field
+              name="description"
+              as="textarea"
+              rows={5}
+              className={clsx(styles.input, styles.textarea)}
+              placeholder="Description"
             />
-            <input
-              type="datetime-local"
-              className={styles.input}
-              value={timeTo.toISOString().slice(0, 16)}
-              onChange={(e) => setTimeTo(new Date(e.target.value))}
-            />
-          </div>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={5}
-            className={clsx(styles.input, styles.textarea)}
-            placeholder="Description"
-          ></textarea>
-          <select
-            className={styles.input}
-            value={selectedUser?.id}
-            onChange={(e) =>
-              setSelectedUser(
-                users.find((u: IUser) => u.id === +e.target.value) || null
-              )
-            }
-          >
-            {users.map((user) => (
-              <option value={user.id} key={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-          <button className={styles.button} onClick={addTask}>
-            Add time
-          </button>
-        </>
-      )}
+            <Field name="user" as="select" className={styles.input}>
+              {users.map((user) => (
+                <option value={user.id} key={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </Field>
+            <button
+              className={styles.button}
+              type="submit"
+              disabled={isSubmitting}
+            >
+              Add time
+            </button>
+          </Form>
+        )}
+      </Formik>
     </section>
   );
 };
