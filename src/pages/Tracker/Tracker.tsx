@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { GET } from "../../API/api";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { ITask, IUser } from "../../utils/types";
 import styles from "./Tracker.module.scss";
@@ -18,40 +17,37 @@ const Tracker: React.FC = () => {
     try {
       const { res } = await GET(`users`);
       setUsers(res.data);
-      setLoading(false);
       return res.data;
     } catch (error) {
       console.log(error);
     }
   };
 
- useEffect(() => {
+  useEffect(() => {
     const savedTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
     setTasks(savedTasks);
     getUsers();
   }, []);
 
-  const addTask = () => {
-    if (taskName && !tasks.find((task) => task.name === taskName)) {
-      const newTasks = [
-        ...tasks,
-        {
-          name: taskName,
-          dateTimeFrom: timeFrom,
-          dateTimeTo: timeTo,
-          description,
-          user: selectedUser!,
-          isFavorite: true,
-          comments: [],
-        },
-      ];
-      localStorage.setItem("tasks", JSON.stringify(newTasks));
-      setTasks(newTasks);
-      history.push("/list");
-    }
+  const addTask = (value: ITask) => {
+    const newTasks = [
+      ...tasks,
+      {
+        name: value.name,
+        dateTimeFrom: value.dateTimeFrom,
+        dateTimeTo: value.dateTimeTo,
+        description: value.description,
+        user: value.user,
+        isFavorite: value.isFavorite,
+        comments: [],
+      },
+    ];
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
+    setTasks(newTasks);
+    history.push("/list");
   };
 
-  if (!!!users.length) {
+  if (!users.length) {
     return <div>Loading...</div>;
   }
 
