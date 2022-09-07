@@ -39,6 +39,19 @@
   line-height: 1.1;
   height: auto;
   resize: vertical;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #e0e7ecb8;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #363a3c36;
+    border-radius: 20px;
+  }
 }
 
 .button {
