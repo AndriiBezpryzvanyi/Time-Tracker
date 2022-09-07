@@ -1,4 +1,6 @@
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
+import { GET } from "../../API/api";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
@@ -12,36 +14,41 @@ const Tracker: React.FC = () => {
 
   const history = useHistory();
 
-  useEffect(() => {
+  const getUsers = async () => {
+    try {
+      const { res } = await GET(`users`);
+      setUsers(res.data);
+      setLoading(false);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+ useEffect(() => {
     const savedTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
     setTasks(savedTasks);
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((result) => {
-        setUsers(result);
-      })
-      .catch((e) => console.log(e));
+    getUsers();
   }, []);
 
-  const addTask = (value: ITask) => {
-    // if (taskName && !tasks.find((task) => task.name === taskName)) {
-    //   const newTasks = [
-    //     ...tasks,
-    //     {
-    //       name: taskName,
-    //       dateTimeFrom: timeFrom,
-    //       dateTimeTo: timeTo,
-    //       description,
-    //       user: selectedUser!,
-    //       isFavorite: true,
-    //       comments: [],
-    //     },
-    //   ];
-    //   localStorage.setItem("tasks", JSON.stringify(newTasks));
-    //   setTasks(newTasks);
-    //   history.push("/list");
-    // }
-    console.log(value);
+  const addTask = () => {
+    if (taskName && !tasks.find((task) => task.name === taskName)) {
+      const newTasks = [
+        ...tasks,
+        {
+          name: taskName,
+          dateTimeFrom: timeFrom,
+          dateTimeTo: timeTo,
+          description,
+          user: selectedUser!,
+          isFavorite: true,
+          comments: [],
+        },
+      ];
+      localStorage.setItem("tasks", JSON.stringify(newTasks));
+      setTasks(newTasks);
+      history.push("/list");
+    }
   };
 
   if (!!!users.length) {
