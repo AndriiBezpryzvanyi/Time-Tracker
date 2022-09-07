@@ -1,6 +1,6 @@
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
-import { useState, useEffect } from "react";
+import { GET } from "../../API/api";
 import { useHistory } from "react-router-dom";
 import { ITask, IUser } from "../../utils/types";
 import styles from "./Tracker.module.scss";
@@ -16,17 +16,21 @@ const Tracker: React.FC = () => {
   const [description, setDescription] = useState<string>("");
   const history = useHistory();
 
+  const getUsers = async () => {
+    try {
+      const { res } = await GET(`users`);
+      setUsers(res.data);
+      setLoading(false);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const savedTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
     setTasks(savedTasks);
-    axios
-      .get("https://jsonplaceholder.typicode.com/users")
-      .then((res) => {
-        setLoading(false);
-        setUsers(res.data);
-        res.data.length && setSelectedUser(res.data[0]);
-      })
-      .catch((e) => console.log(e));
+    getUsers();
   }, []);
 
   const addTask = () => {
