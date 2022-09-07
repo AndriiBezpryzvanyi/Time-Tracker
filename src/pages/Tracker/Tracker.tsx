@@ -1,50 +1,57 @@
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
-import { useState, useEffect } from "react";
+import { GET } from "../../API/api";
 import { useHistory } from "react-router-dom";
-import { ITask, IUser } from '../../utils/types';
-import styles from './Tracker.module.scss';
+import { ITask, IUser } from "../../utils/types";
+import styles from "./Tracker.module.scss";
 
 const Tracker: React.FC = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
-  const [taskName, setTaskName] = useState<string>('');
+  const [taskName, setTaskName] = useState<string>("");
   const [tasks, setTasks] = useState<ITask[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const [timeFrom, setTimeFrom] = useState<Date>(new Date());
   const [timeTo, setTimeTo] = useState<Date>(new Date());
-  const [description, setDescription] = useState<string>('');
+  const [description, setDescription] = useState<string>("");
   const history = useHistory();
 
+  const getUsers = async () => {
+    try {
+      const { res } = await GET(`users`);
+      setUsers(res.data);
+      setLoading(false);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const savedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    const savedTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
     setTasks(savedTasks);
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(response => response.json())
-      .then(result => {
-        setLoading(false);
-        setUsers(result);
-        result.length && setSelectedUser(result[0]);
-      })
-      .catch(e => console.log(e));
+    getUsers();
   }, []);
 
   const addTask = () => {
     if (taskName && !tasks.find((task) => task.name === taskName)) {
-      const newTasks = [...tasks, {
-        name: taskName,
-        dateTimeFrom: timeFrom,
-        dateTimeTo: timeTo,
-        description,
-        user: selectedUser!,
-        isFavorite: true,
-        comments: []
-      }];
-      localStorage.setItem('tasks', JSON.stringify(newTasks));
+      const newTasks = [
+        ...tasks,
+        {
+          name: taskName,
+          dateTimeFrom: timeFrom,
+          dateTimeTo: timeTo,
+          description,
+          user: selectedUser!,
+          isFavorite: true,
+          comments: [],
+        },
+      ];
+      localStorage.setItem("tasks", JSON.stringify(newTasks));
       setTasks(newTasks);
-      history.push('/list');
+      history.push("/list");
     }
-    
-  }
+  };
   return (
     <section className={styles.container}>
       {isLoading ? (
@@ -52,8 +59,8 @@ const Tracker: React.FC = () => {
       ) : (
         <>
           <input
-            value={taskName} 
-            onChange={(e) => setTaskName(e.target.value)} 
+            value={taskName}
+            onChange={(e) => setTaskName(e.target.value)}
             type="text"
             className={styles.input}
             placeholder="Task name"
@@ -82,15 +89,25 @@ const Tracker: React.FC = () => {
           <select
             className={styles.input}
             value={selectedUser?.id}
-            onChange={(e) => setSelectedUser(users.find((u: IUser) => u.id === +e.target.value) || null)}
+            onChange={(e) =>
+              setSelectedUser(
+                users.find((u: IUser) => u.id === +e.target.value) || null
+              )
+            }
           >
-            {users.map((user) => (<option value={user.id} key={user.id}>{user.name}</option>))}
+            {users.map((user) => (
+              <option value={user.id} key={user.id}>
+                {user.name}
+              </option>
+            ))}
           </select>
-          <button className={styles.button} onClick={addTask}>Add time</button>
+          <button className={styles.button} onClick={addTask}>
+            Add time
+          </button>
         </>
       )}
     </section>
   );
-}
+};
 
 export default Tracker;

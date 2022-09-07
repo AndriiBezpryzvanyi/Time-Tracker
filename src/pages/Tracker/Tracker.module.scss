@@ -48,11 +48,11 @@
   outline: none;
   border: none;
   cursor: pointer;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
   text-transform: uppercase;
   font-weight: bold;
 
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
   }
 }
