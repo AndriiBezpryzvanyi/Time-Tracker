@@ -1,7 +1,7 @@
 .task {
   display: flex;
   padding: 20px;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
   cursor: pointer;
 
   .actions {
@@ -35,10 +35,14 @@
 
   span {
     cursor: pointer;
-  }
-}
+    background: #7c828436;
+    border: solid 1px #363a3c12;
+    border-radius: 4px;
+    padding: 4px;
 
-.selectedSort {
-  color: #0a76d2;
-  font-weight: bold;
+    &.selectedSort {
+      color: #0a76d2;
+      border: solid 1px #0a76d2;
+    }
+  }
 }

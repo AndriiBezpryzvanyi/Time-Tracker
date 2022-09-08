@@ -20,3 +20,7 @@ body::-webkit-scrollbar-thumb {
   background: #363a3c36;
   border-radius: 20px;
 }
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #191b1c60;
+}

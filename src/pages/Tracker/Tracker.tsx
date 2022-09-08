@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
+import { BarLoader } from "react-spinners";
 import { GET } from "../../API/api";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useHistory } from "react-router-dom";
@@ -48,7 +49,7 @@ const Tracker: React.FC = () => {
   };
 
   if (!users.length) {
-    return <div>Loading...</div>;
+    return <BarLoader color="#0a76d2" width="100%" />;
   }
 
   return (
