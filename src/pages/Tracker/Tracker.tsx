@@ -105,6 +105,12 @@ const Tracker: React.FC = () => {
               className={clsx(styles.input, styles.textarea)}
               placeholder="Description"
             />
+
+            <div className={styles.fieldWrapper}>
+              <Field type="checkbox" name="isFavorite" id="isFavorite" />
+              <label htmlFor="isFavorite">Add tasks to favorites</label>
+            </div>
+
             <Field name="user" as="select" className={styles.input}>
               {users.map((user) => (
                 <option value={user.id} key={user.id}>
@@ -117,7 +123,7 @@ const Tracker: React.FC = () => {
               type="submit"
               disabled={isSubmitting}
             >
-              Add time
+              Add task
             </button>
           </Form>
         )}

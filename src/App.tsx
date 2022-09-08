@@ -1,22 +1,36 @@
-import React from 'react';
-import styles from './App.module.scss';
+import React from "react";
+import styles from "./App.module.scss";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  NavLink
+  NavLink,
 } from "react-router-dom";
-import Tracker from './pages/Tracker/Tracker';
-import TrackedItems from './pages/TrackedItems/TrackedItems';
-import DetailsPage from './pages/DetailsPage/DetailsPage';
+import Tracker from "./pages/Tracker/Tracker";
+import TrackedItems from "./pages/TrackedItems/TrackedItems";
+import DetailsPage from "./pages/DetailsPage/DetailsPage";
 
 const App: React.FC = () => {
   return (
     <main className={styles.main}>
       <Router>
         <nav className={styles.nav}>
-          <NavLink to="/" className={styles.tab} activeClassName={styles.selectedTab} exact>Tracker</NavLink>
-          <NavLink to="/list" className={styles.tab} activeClassName={styles.selectedTab} exact>Tracked items</NavLink>
+          <NavLink
+            to="/"
+            className={styles.tab}
+            activeClassName={styles.selectedTab}
+            exact
+          >
+            Create task
+          </NavLink>
+          <NavLink
+            to="/list"
+            className={styles.tab}
+            activeClassName={styles.selectedTab}
+            exact
+          >
+            Tracked tasks
+          </NavLink>
         </nav>
         <Switch>
           <Route path="/" exact>
@@ -32,6 +46,6 @@ const App: React.FC = () => {
       </Router>
     </main>
   );
-}
+};
 
 export default App;

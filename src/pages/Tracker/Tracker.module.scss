@@ -1,5 +1,5 @@
 .container {
-  padding: 7px 7px 7px 15px;
+  padding: 20px;
   & span {
     color: red;
     font-size: 12px;
@@ -35,10 +35,11 @@
 }
 
 .textarea {
-  padding: 20px;
+  padding: 7px 7px 7px 15px;
   line-height: 1.1;
   height: auto;
   resize: vertical;
+  margin-bottom: 7px;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -51,6 +52,11 @@
       background: #191b1c60;
     }
   }
+}
+
+[type="checkbox"] {
+  margin-bottom: 12px;
+  margin-left: 10px;
 }
 
 .button {
