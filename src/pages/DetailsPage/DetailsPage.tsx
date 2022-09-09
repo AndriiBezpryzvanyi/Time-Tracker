@@ -16,7 +16,7 @@ const DetailsPage: React.FC = () => {
   }, [id]);
 
   const updateSavedTask = (changedTask: ITask) => {
-    setCurrentTask(changedTask as ITask);
+    setCurrentTask(changedTask);
     const savedTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
     localStorage.setItem(
       "tasks",

@@ -46,6 +46,7 @@ const Tracker: React.FC = () => {
     localStorage.setItem("tasks", JSON.stringify(newTasks));
     setTasks(newTasks);
     history.push("/list");
+    console.log(value);
   };
 
   if (!users.length) {
@@ -56,7 +57,12 @@ const Tracker: React.FC = () => {
     <section className={styles.container}>
       <Formik
         initialValues={initialValuesForm(users[0])}
-        onSubmit={addTask}
+        onSubmit={(value) =>
+          addTask({
+            ...value,
+            user: users.find((u) => u.id === +value.user) || users[0],
+          })
+        }
         validationSchema={validationSchema(tasks)}
       >
         {({ isSubmitting, touched, errors }) => (
@@ -112,7 +118,7 @@ const Tracker: React.FC = () => {
             </div>
 
             <Field name="user" as="select" className={styles.input}>
-              {users.map((user) => (
+              {users.map((user: IUser) => (
                 <option value={user.id} key={user.id}>
                   {user.name}
                 </option>
