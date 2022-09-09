@@ -46,7 +46,6 @@ const Tracker: React.FC = () => {
     localStorage.setItem("tasks", JSON.stringify(newTasks));
     setTasks(newTasks);
     history.push("/list");
-    console.log(value);
   };
 
   if (!users.length) {

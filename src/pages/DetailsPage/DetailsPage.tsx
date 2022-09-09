@@ -35,6 +35,7 @@ const DetailsPage: React.FC = () => {
         comments: [
           ...(currentTask.comments || []),
           {
+            id: Date.now(),
             text: commentText,
             date: new Date(),
           },
@@ -42,6 +43,14 @@ const DetailsPage: React.FC = () => {
       });
       setCommentText("");
     }
+  };
+
+  const removeComment = (id: number) => {
+    currentTask &&
+      updateSavedTask({
+        ...currentTask,
+        comments: currentTask?.comments?.filter((item) => item.id !== id),
+      });
   };
 
   const favoriteToggle = () => {
@@ -107,9 +116,9 @@ const DetailsPage: React.FC = () => {
             </button>
             {currentTask.comments?.map((item: IComment) => (
               <Comment
-                key={item.date.toString()}
-                date={item.date}
-                text={item.text}
+                key={item.id}
+                comment={item}
+                removeComment={removeComment}
               />
             ))}
           </div>

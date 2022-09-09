@@ -29,6 +29,7 @@ export interface IUser {
 }
 
 export interface IComment {
+  id: number;
   date: Date;
   text: string;
 }

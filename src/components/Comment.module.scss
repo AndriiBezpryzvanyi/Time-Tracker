@@ -1,12 +1,20 @@
 .comment {
   margin: 20px 0;
+  position: relative;
+
+  span {
+    color: red;
+    position: absolute;
+    top: -2px;
+    right: 5px;
+    cursor: pointer;
+  }
 
   .text {
     border: 1px solid #e3e6ea;
     background: #e3e6ea;
     border-radius: 5px;
     padding: 10px;
-    white-space: pre;
   }
 
   .date {
