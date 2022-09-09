@@ -23,7 +23,8 @@ const TrackedItems: React.FC = () => {
     setTasks(savedTasks);
   }, []);
 
-  const onDelete = (name: string) => {
+  const onDelete = (name: string, e: React.SyntheticEvent) => {
+    e.stopPropagation();
     const filteredList = tasks.filter((task) => task.name !== name);
     setTasks(filteredList);
     localStorage.setItem("tasks", JSON.stringify(filteredList));
@@ -95,7 +96,7 @@ const TrackedItems: React.FC = () => {
             <div>From: {new Date(item.dateTimeFrom).toLocaleString()}</div>
             <div>To: {new Date(item.dateTimeTo).toLocaleString()}</div>
           </div>
-          <button onClick={() => onDelete(item.name)}>
+          <button onClick={(e) => onDelete(item.name, e)}>
             Delete <RemoveIcon />
           </button>
         </div>
