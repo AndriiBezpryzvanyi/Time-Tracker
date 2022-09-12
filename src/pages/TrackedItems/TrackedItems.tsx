@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { ITask } from "../../utils/types";
 import { ReactComponent as RemoveIcon } from "../../assets/deleteIcon.svg";
 import styles from "./TrackedItems.module.scss";
+import { ReactComponent as FavoriteIcon } from "../../assets/favoriteIcon.svg";
 
 enum Filtration {
   All,
@@ -88,7 +89,10 @@ const TrackedItems: React.FC = () => {
           key={item.name}
           onClick={() => history.push(`/details/${item.name}`)}
         >
-          <div>
+          <div className={styles.taskName}>
+            {item.isFavorite && (
+              <FavoriteIcon className={styles.favoriteIcon} />
+            )}
             <div>{item.name}</div>
             <div>{item.user.name}</div>
           </div>

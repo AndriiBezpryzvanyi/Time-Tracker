@@ -1,8 +1,15 @@
+@import "../../_config";
+
 .title {
   font-size: 22px;
   font-weight: bold;
   margin: 20px;
   text-align: center;
+
+  svg {
+    width: 15px;
+    fill: $favoriteTaskColor;
+  }
 }
 
 .info {
@@ -13,7 +20,7 @@
   div {
     flex: 50%;
     margin-top: 10px;
-    border-bottom: 1px solid #e3e6ea;
+    border-bottom: 1px solid $gray;
     padding-bottom: 10px;
   }
   pre {
@@ -26,9 +33,9 @@
 }
 
 .button {
-  background: #0a76d2;
+  background: $blue;
   border-radius: 5px;
-  color: #fff;
+  color: $white;
   height: 45px;
   line-height: 45px;
   width: 100%;
@@ -53,13 +60,12 @@
   display: block;
   width: 100%;
   border-radius: 5px;
-  background: #f4f6f8;
+  background: $lightGray;
   font-size: 18px;
   outline: none;
-  border: 1px solid #c0c7ce;
+  border: 1px solid $darkGrey;
   margin-bottom: 20px;
   box-sizing: border-box;
-  color: #0d1b24;
   padding: 20px;
   line-height: 1.1;
   height: auto;
@@ -69,11 +75,11 @@
   width: 180px;
   margin: auto;
   text-align: center;
-  color: #0a76d2;
+  color: $blue;
   font-weight: bold;
-  border: solid 1px #363a3c12;
+  border: solid 1px $darkGrey;
   border-radius: 6px;
   padding: 3px 5px;
-  background: #7c828436;
+  background: $gray;
   cursor: pointer;
 }
