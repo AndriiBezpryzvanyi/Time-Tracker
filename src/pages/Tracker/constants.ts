@@ -24,7 +24,7 @@ export const validationSchema = (tasks: ITask[]) =>
       .test(
         "Name matching",
         "*A task with this name already exists",
-        (value) => !!!tasks.find((item) => item.name === value)
+        (value) => !!!tasks.find((item) => item.name === value?.trim())
       ),
     dateTimeFrom: Yup.date().min(currentDate, "*Can't be in the past"),
     dateTimeTo: Yup.date().when(

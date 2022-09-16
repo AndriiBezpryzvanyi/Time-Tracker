@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
+import { BarLoader } from "react-spinners";
 import { GET } from "../../API/api";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useHistory } from "react-router-dom";
@@ -48,7 +49,7 @@ const Tracker: React.FC = () => {
   };
 
   if (!users.length) {
-    return <div>Loading...</div>;
+    return <BarLoader color="#0a76d2" width="100%" />;
   }
 
   return (
@@ -104,6 +105,12 @@ const Tracker: React.FC = () => {
               className={clsx(styles.input, styles.textarea)}
               placeholder="Description"
             />
+
+            <div className={styles.fieldWrapper}>
+              <Field type="checkbox" name="isFavorite" id="isFavorite" />
+              <label htmlFor="isFavorite">Add tasks to favorites</label>
+            </div>
+
             <Field name="user" as="select" className={styles.input}>
               {users.map((user) => (
                 <option value={user.id} key={user.id}>
@@ -116,7 +123,7 @@ const Tracker: React.FC = () => {
               type="submit"
               disabled={isSubmitting}
             >
-              Add time
+              Add task
             </button>
           </Form>
         )}

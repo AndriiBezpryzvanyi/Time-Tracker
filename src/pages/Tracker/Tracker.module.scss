@@ -35,10 +35,28 @@
 }
 
 .textarea {
-  padding: 20px;
+  padding: 7px 7px 7px 15px;
   line-height: 1.1;
   height: auto;
   resize: vertical;
+  margin-bottom: 7px;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #363a3c36;
+    border-radius: 20px;
+    &:hover {
+      background: #191b1c60;
+    }
+  }
+}
+
+[type="checkbox"] {
+  margin-bottom: 12px;
+  margin-left: 10px;
 }
 
 .button {
