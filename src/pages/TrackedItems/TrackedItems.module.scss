@@ -1,4 +1,7 @@
+@import "../../_config";
+
 .task {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -7,24 +10,37 @@
   cursor: pointer;
 
   &:hover {
-    background: #0a76d21a;
+    background: $lightBlue;
   }
 
   button {
     width: 80px;
-    background: #7c828436;
-    border: solid 1px #363a3c12;
+    background: $gray;
+    border: solid 1px $darkGrey;
     border-radius: 5px;
     padding: 5px 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
 
     svg {
       width: 12px;
-      fill: red;
+      fill: $errorColor;
     }
   }
+}
+
+.taskName {
+  width: 180px;
+}
+
+.favoriteIcon {
+  position: absolute;
+  left: 5px;
+  top: 45%;
+  fill: $favoriteTaskColor;
+  width: 11px;
 }
 
 .alert {
@@ -39,11 +55,11 @@
   align-items: center;
 
   input {
-    border: solid 1px #00000012;
+    border: solid 1px $dark;
     border-radius: 6px;
     height: 30px;
     width: 350px;
-    background: #e2e7e936;
+    background: $lightGray;
     padding: 0 10px;
     &:focus {
       outline: none;
@@ -52,14 +68,14 @@
 
   span {
     cursor: pointer;
-    background: #7c828436;
-    border: solid 1px #363a3c12;
+    background: $gray;
+    border: solid 1px $darkGrey;
     border-radius: 6px;
     padding: 4px;
 
     &.selectedSort {
-      color: #0a76d2;
-      border: solid 1px #0a76d2;
+      color: $blue;
+      border: solid 1px $blue;
     }
   }
 }

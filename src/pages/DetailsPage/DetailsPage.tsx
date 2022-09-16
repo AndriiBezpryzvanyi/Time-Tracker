@@ -3,20 +3,22 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { IComment, ITask } from "../../utils/types";
 import Comment from "../../components/Comment";
+import { rowInfo } from "./constants";
 import styles from "./DetailsPage.module.scss";
+import { ReactComponent as FavoriteIcon } from "../../assets/favoriteIcon.svg";
 
 const DetailsPage: React.FC = () => {
   const [currentTask, setCurrentTask] = useState<ITask | null>(null);
   const [commentText, setCommentText] = useState<string>("");
-  const { id } = useParams() as { id: string };
+  const { name } = useParams<{ name: string }>();
 
   useEffect(() => {
     const savedTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
-    setCurrentTask(savedTasks.find((task: ITask) => task.name === id));
-  }, [id]);
+    setCurrentTask(savedTasks.find((task: ITask) => task.name === name));
+  }, [name]);
 
   const updateSavedTask = (changedTask: ITask) => {
-    setCurrentTask(changedTask as ITask);
+    setCurrentTask(changedTask);
     const savedTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
     localStorage.setItem(
       "tasks",
@@ -35,6 +37,7 @@ const DetailsPage: React.FC = () => {
         comments: [
           ...(currentTask.comments || []),
           {
+            id: Date.now(),
             text: commentText,
             date: new Date(),
           },
@@ -42,6 +45,14 @@ const DetailsPage: React.FC = () => {
       });
       setCommentText("");
     }
+  };
+
+  const removeComment = (id: number) => {
+    currentTask &&
+      updateSavedTask({
+        ...currentTask,
+        comments: currentTask?.comments?.filter((item) => item.id !== id),
+      });
   };
 
   const favoriteToggle = () => {
@@ -59,33 +70,13 @@ const DetailsPage: React.FC = () => {
         <div>Task not found</div>
       ) : (
         <div>
-          <div className={styles.title}>Task details</div>
+          <div className={styles.title}>
+            Task details {currentTask.isFavorite && <FavoriteIcon />}
+          </div>
           <div className={styles.info}>
-            <div>Name:</div>
-            <div>{currentTask.name}</div>
-            <div>Description</div>
-            <div>
-              <pre>{currentTask.description}</pre>
-            </div>
-            <div>Time to:</div>
-            <div>{new Date(currentTask.dateTimeTo).toUTCString()}</div>
-            <div>Time from:</div>
-            <div>{new Date(currentTask.dateTimeFrom).toUTCString()}</div>
-            <div>Worker:</div>
-            <div>{currentTask.user.name}</div>
-            <div>Username:</div>
-            <div>{currentTask.user.username}</div>
-            <div>Worker's phone:</div>
-            <div>{currentTask.user.phone}</div>
-            <div>Email:</div>
-            <div>{currentTask.user.email}</div>
-            <div>Address:</div>
-            <div>
-              {currentTask.user.address.city},{currentTask.user.address.street},
-              {currentTask.user.address.suite},
-            </div>
-            <div>Company:</div>
-            <div>{currentTask.user.company.name}</div>
+            {rowInfo(currentTask).map((item: string | JSX.Element, index) => (
+              <div key={index}>{item}</div>
+            ))}
           </div>
           <div className={styles.actionButton} onClick={favoriteToggle}>
             {currentTask.isFavorite
@@ -107,9 +98,9 @@ const DetailsPage: React.FC = () => {
             </button>
             {currentTask.comments?.map((item: IComment) => (
               <Comment
-                key={item.date.toString()}
-                date={item.date}
-                text={item.text}
+                key={item.id}
+                comment={item}
+                removeComment={removeComment}
               />
             ))}
           </div>

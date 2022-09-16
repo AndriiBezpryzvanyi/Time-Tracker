@@ -39,7 +39,7 @@ const App: React.FC = () => {
           <Route path="/list" exact>
             <TrackedItems />
           </Route>
-          <Route path="/details/:id">
+          <Route path="/details/:name">
             <DetailsPage />
           </Route>
         </Switch>

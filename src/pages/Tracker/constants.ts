@@ -9,7 +9,7 @@ export const initialValuesForm = (firstUser: IUser) => {
     description: "",
     dateTimeFrom: currentDate,
     dateTimeTo: currentDate,
-    user: firstUser,
+    user: firstUser.id,
     isFavorite: false,
     comments: [],
   };
